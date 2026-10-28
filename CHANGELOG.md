@@ -1,166 +1,100 @@
-# Changes
+# Change Log
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## 2.0.2
+### [5.0.8](https://www.github.com/yargs/y18n/compare/v5.0.7...v5.0.8) (2021-04-07)
 
-* Rename bin to `node-which`
 
-## 2.0.1
+### Bug Fixes
 
-* generate changelog and publish on version bump
-* enforce 100% test coverage
-* Promise interface
+* **deno:** force modern release for Deno ([b1c215a](https://www.github.com/yargs/y18n/commit/b1c215aed714bee5830e76de3e335504dc2c4dab))
 
-## 2.0.0
+### [5.0.7](https://www.github.com/yargs/y18n/compare/v5.0.6...v5.0.7) (2021-04-07)
 
-* Parallel tests, modern JavaScript, and drop support for node < 8
 
-## 1.3.1
+### Bug Fixes
 
-* update deps
-* update travis
+* **deno:** force release for deno ([#121](https://www.github.com/yargs/y18n/issues/121)) ([d3f2560](https://www.github.com/yargs/y18n/commit/d3f2560e6cedf2bfa2352e9eec044da53f9a06b2))
 
-## v1.3.0
+### [5.0.6](https://www.github.com/yargs/y18n/compare/v5.0.5...v5.0.6) (2021-04-05)
 
-* Add nothrow option to which.sync
-* update tap
 
-## v1.2.14
+### Bug Fixes
 
-* appveyor: drop node 5 and 0.x
-* travis-ci: add node 6, drop 0.x
+* **webpack:** skip readFileSync if not defined ([#117](https://www.github.com/yargs/y18n/issues/117)) ([6966fa9](https://www.github.com/yargs/y18n/commit/6966fa91d2881cc6a6c531e836099e01f4da1616))
 
-## v1.2.13
+### [5.0.5](https://www.github.com/yargs/y18n/compare/v5.0.4...v5.0.5) (2020-10-25)
 
-* test: Pass missing option to pass on windows
-* update tap
-* update isexe to 2.0.0
-* neveragain.tech pledge request
 
-## v1.2.12
+### Bug Fixes
 
-* Removed unused require
+* address prototype pollution issue ([#108](https://www.github.com/yargs/y18n/issues/108)) ([a9ac604](https://www.github.com/yargs/y18n/commit/a9ac604abf756dec9687be3843e2c93bfe581f25))
 
-## v1.2.11
+### [5.0.4](https://www.github.com/yargs/y18n/compare/v5.0.3...v5.0.4) (2020-10-16)
 
-* Prevent changelog script from being included in package
 
-## v1.2.10
+### Bug Fixes
 
-* Use env.PATH only, not env.Path
+* **exports:** node 13.0 and 13.1 require the dotted object form _with_ a string fallback ([#105](https://www.github.com/yargs/y18n/issues/105)) ([4f85d80](https://www.github.com/yargs/y18n/commit/4f85d80dbaae6d2c7899ae394f7ad97805df4886))
 
-## v1.2.9
+### [5.0.3](https://www.github.com/yargs/y18n/compare/v5.0.2...v5.0.3) (2020-10-16)
 
-* fix for paths starting with ../
-* Remove unused `is-absolute` module
 
-## v1.2.8
+### Bug Fixes
 
-* bullet items in changelog that contain (but don't start with) #
+* **exports:** node 13.0-13.6 require a string fallback ([#103](https://www.github.com/yargs/y18n/issues/103)) ([e39921e](https://www.github.com/yargs/y18n/commit/e39921e1017f88f5d8ea97ddea854ffe92d68e74))
 
-## v1.2.7
+### [5.0.2](https://www.github.com/yargs/y18n/compare/v5.0.1...v5.0.2) (2020-10-01)
 
-* strip 'update changelog' changelog entries out of changelog
 
-## v1.2.6
+### Bug Fixes
 
-* make the changelog bulleted
+* **deno:** update types for deno ^1.4.0 ([#100](https://www.github.com/yargs/y18n/issues/100)) ([3834d9a](https://www.github.com/yargs/y18n/commit/3834d9ab1332f2937c935ada5e76623290efae81))
 
-## v1.2.5
+### [5.0.1](https://www.github.com/yargs/y18n/compare/v5.0.0...v5.0.1) (2020-09-05)
 
-* make a changelog, and keep it up to date
-* don't include tests in package
-* Properly handle relative-path executables
-* appveyor
-* Attach error code to Not Found error
-* Make tests pass on Windows
 
-## v1.2.4
+### Bug Fixes
 
-* Fix typo
+* main had old index path ([#98](https://www.github.com/yargs/y18n/issues/98)) ([124f7b0](https://www.github.com/yargs/y18n/commit/124f7b047ba9596bdbdf64459988304e77f3de1b))
 
-## v1.2.3
+## [5.0.0](https://www.github.com/yargs/y18n/compare/v4.0.0...v5.0.0) (2020-09-05)
 
-* update isexe, fix regression in pathExt handling
 
-## v1.2.2
+### ⚠ BREAKING CHANGES
 
-* update deps, use isexe module, test windows
+* exports maps are now used, which modifies import behavior.
+* drops Node 6 and 4. begin following Node.js LTS schedule (#89)
 
-## v1.2.1
+### Features
 
-* Sometimes windows PATH entries are quoted
-* Fixed a bug in the check for group and user mode bits. This bug was introduced during refactoring for supporting strict mode.
-* doc cli
+* add support for ESM and Deno [#95](https://www.github.com/yargs/y18n/issues/95)) ([4d7ae94](https://www.github.com/yargs/y18n/commit/4d7ae94bcb42e84164e2180366474b1cd321ed94))
 
-## v1.2.0
 
-* Add support for opt.all and -as cli flags
-* test the bin
-* update travis
-* Allow checking for multiple programs in bin/which
-* tap 2
+### Build System
 
-## v1.1.2
+* drops Node 6 and 4. begin following Node.js LTS schedule ([#89](https://www.github.com/yargs/y18n/issues/89)) ([3cc0c28](https://www.github.com/yargs/y18n/commit/3cc0c287240727b84eaf1927f903612ec80f5e43))
 
-* travis
-* Refactored and fixed undefined error on Windows
-* Support strict mode
+### 4.0.1 (2020-10-25)
 
-## v1.1.1
 
-* test +g exes against secondary groups, if available
-* Use windows exe semantics on cygwin & msys
-* cwd should be first in path on win32, not last
-* Handle lower-case 'env.Path' on Windows
-* Update docs
-* use single-quotes
+### Bug Fixes
 
-## v1.1.0
+* address prototype pollution issue ([#108](https://www.github.com/yargs/y18n/issues/108)) ([a9ac604](https://www.github.com/yargs/y18n/commit/7de58ca0d315990cdb38234e97fc66254cdbcd71))
 
-* Add tests, depend on is-absolute
+## [4.0.0](https://github.com/yargs/y18n/compare/v3.2.1...v4.0.0) (2017-10-10)
 
-## v1.0.9
 
-* which.js: root is allowed to execute files owned by anyone
+### Bug Fixes
 
-## v1.0.8
+* allow support for falsy values like 0 in tagged literal ([#45](https://github.com/yargs/y18n/issues/45)) ([c926123](https://github.com/yargs/y18n/commit/c926123))
 
-* don't use graceful-fs
 
-## v1.0.7
+### Features
 
-* add license to package.json
+* **__:** added tagged template literal support ([#44](https://github.com/yargs/y18n/issues/44)) ([0598daf](https://github.com/yargs/y18n/commit/0598daf))
 
-## v1.0.6
 
-* isc license
+### BREAKING CHANGES
 
-## 1.0.5
-
-* Awful typo
-
-## 1.0.4
-
-* Test for path absoluteness properly
-* win: Allow '' as a pathext if cmd has a . in it
-
-## 1.0.3
-
-* Remove references to execPath
-* Make `which.sync()` work on Windows by honoring the PATHEXT variable.
-* Make `isExe()` always return true on Windows.
-* MIT
-
-## 1.0.2
-
-* Only files can be exes
-
-## 1.0.1
-
-* Respect the PATHEXT env for win32 support
-* should 0755 the bin
-* binary
-* guts
-* package
-* 1st
+* **__:** dropping Node 0.10/Node 0.12 support
