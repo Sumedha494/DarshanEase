@@ -1,91 +1,127 @@
-write-file-atomic
------------------
+# y18n
 
-This is an extension for node's `fs.writeFile` that makes its operation
-atomic and allows you set ownership (uid/gid of the file).
+[![NPM version][npm-image]][npm-url]
+[![js-standard-style][standard-image]][standard-url]
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-### `writeFileAtomic(filename, data, [options], [callback])`
+The bare-bones internationalization library used by yargs.
 
-#### Description:
+Inspired by [i18n](https://www.npmjs.com/package/i18n).
 
-Atomically and asynchronously writes data to a file, replacing the file if it already
-exists.  data can be a string or a buffer.
+## Examples
 
-#### Options:
-* filename **String**
-* data **String** | **Buffer**
-* options **Object** | **String**
-  * chown **Object** default, uid & gid of existing file, if any
-    * uid **Number**
-    * gid **Number**
-  * encoding **String** | **Null** default = 'utf8'
-  * fsync **Boolean** default = true
-  * mode **Number** default, from existing file, if any
-  * tmpfileCreated **Function** called when the tmpfile is created
-* callback **Function**
-
-#### Usage:
+_simple string translation:_
 
 ```js
-var writeFileAtomic = require('write-file-atomic')
-writeFileAtomic(filename, data, [options], [callback])
+const __ = require('y18n')().__;
+
+console.log(__('my awesome string %s', 'foo'));
 ```
 
-The file is initially named `filename + "." + murmurhex(__filename, process.pid, ++invocations)`.
-Note that `require('worker_threads').threadId` is used in addition to `process.pid` if running inside of a worker thread.
-If writeFile completes successfully then, if passed the **chown** option it will change
-the ownership of the file. Finally it renames the file back to the filename you specified. If
-it encounters errors at any of these steps it will attempt to unlink the temporary file and then
-pass the error back to the caller.
-If multiple writes are concurrently issued to the same file, the write operations are put into a queue and serialized in the order they were called, using Promises. Writes to different files are still executed in parallel.
+output:
 
-If provided, the **chown** option requires both **uid** and **gid** properties or else
-you'll get an error.  If **chown** is not specified it will default to using
-the owner of the previous file.  To prevent chown from being ran you can
-also pass `false`, in which case the file will be created with the current user's credentials.
+`my awesome string foo`
 
-If **mode** is not specified, it will default to using the permissions from
-an existing file, if any.  Expicitly setting this to `false` remove this default, resulting
-in a file created with the system default permissions.
+_using tagged template literals_
 
-If options is a String, it's assumed to be the **encoding** option. The **encoding** option is ignored if **data** is a buffer. It defaults to 'utf8'.
-
-If the **fsync** option is **false**, writeFile will skip the final fsync call.
-
-If the **tmpfileCreated** option is specified it will be called with the name of the tmpfile when created.
-
-Example:
-
-```javascript
-writeFileAtomic('message.txt', 'Hello Node', {chown:{uid:100,gid:50}}, function (err) {
-  if (err) throw err;
-  console.log('It\'s saved!');
-});
-```
-
-This function also supports async/await:
-
-```javascript
-(async () => {
-  try {
-    await writeFileAtomic('message.txt', 'Hello Node', {chown:{uid:100,gid:50}});
-    console.log('It\'s saved!');
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-})();
-```
-
-### `writeFileAtomicSync(filename, data, [options])`
-
-#### Description:
-
-The synchronous version of **writeFileAtomic**.
-
-#### Usage:
 ```js
-var writeFileAtomicSync = require('write-file-atomic').sync
-writeFileAtomicSync(filename, data, [options])
+const __ = require('y18n')().__;
+
+const str = 'foo';
+
+console.log(__`my awesome string ${str}`);
 ```
 
+output:
+
+`my awesome string foo`
+
+_pluralization support:_
+
+```js
+const __n = require('y18n')().__n;
+
+console.log(__n('one fish %s', '%d fishes %s', 2, 'foo'));
+```
+
+output:
+
+`2 fishes foo`
+
+## Deno Example
+
+As of `v5` `y18n` supports [Deno](https://github.com/denoland/deno):
+
+```typescript
+import y18n from "https://deno.land/x/y18n/deno.ts";
+
+const __ = y18n({
+  locale: 'pirate',
+  directory: './test/locales'
+}).__
+
+console.info(__`Hi, ${'Ben'} ${'Coe'}!`)
+```
+
+You will need to run with `--allow-read` to load alternative locales.
+
+## JSON Language Files
+
+The JSON language files should be stored in a `./locales` folder.
+File names correspond to locales, e.g., `en.json`, `pirate.json`.
+
+When strings are observed for the first time they will be
+added to the JSON file corresponding to the current locale.
+
+## Methods
+
+### require('y18n')(config)
+
+Create an instance of y18n with the config provided, options include:
+
+* `directory`: the locale directory, default `./locales`.
+* `updateFiles`: should newly observed strings be updated in file, default `true`.
+* `locale`: what locale should be used.
+* `fallbackToLanguage`: should fallback to a language-only file (e.g. `en.json`)
+  be allowed if a file matching the locale does not exist (e.g. `en_US.json`),
+  default `true`.
+
+### y18n.\_\_(str, arg, arg, arg)
+
+Print a localized string, `%s` will be replaced with `arg`s.
+
+This function can also be used as a tag for a template literal. You can use it
+like this: <code>__&#96;hello ${'world'}&#96;</code>. This will be equivalent to
+`__('hello %s', 'world')`.
+
+### y18n.\_\_n(singularString, pluralString, count, arg, arg, arg)
+
+Print a localized string with appropriate pluralization. If `%d` is provided
+in the string, the `count` will replace this placeholder.
+
+### y18n.setLocale(str)
+
+Set the current locale being used.
+
+### y18n.getLocale()
+
+What locale is currently being used?
+
+### y18n.updateLocale(obj)
+
+Update the current locale with the key value pairs in `obj`.
+
+## Supported Node.js Versions
+
+Libraries in this ecosystem make a best effort to track
+[Node.js' release schedule](https://nodejs.org/en/about/releases/). Here's [a
+post on why we think this is important](https://medium.com/the-node-js-collection/maintainers-should-consider-following-node-js-release-schedule-ab08ed4de71a).
+
+## License
+
+ISC
+
+[npm-url]: https://npmjs.org/package/y18n
+[npm-image]: https://img.shields.io/npm/v/y18n.svg
+[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
+[standard-url]: https://github.com/feross/standard
