@@ -1,52 +1,76 @@
-# node-touch
+# tr46
 
-For all your node touching needs.
+An JavaScript implementation of [Unicode Technical Standard #46: Unicode IDNA Compatibility Processing](https://unicode.org/reports/tr46/).
 
-## Installing
+## API
 
-```bash
-npm install touch
-```
+### `toASCII(domainName[, options])`
 
-## CLI Usage:
+Converts a string of Unicode symbols to a case-folded Punycode string of ASCII symbols.
 
-See `man touch`
+Available options:
 
-This package exports a binary called `nodetouch` that works mostly
-like the unix builtin `touch(1)`.
+* [`checkBidi`](#checkbidi)
+* [`checkHyphens`](#checkhyphens)
+* [`checkJoiners`](#checkjoiners)
+* [`ignoreInvalidPunycode`](#ignoreinvalidpunycode)
+* [`transitionalProcessing`](#transitionalprocessing)
+* [`useSTD3ASCIIRules`](#usestd3asciirules)
+* [`verifyDNSLength`](#verifydnslength)
 
-## API Usage:
+### `toUnicode(domainName[, options])`
 
-```javascript
-var touch = require("touch")
-```
+Converts a case-folded Punycode string of ASCII symbols to a string of Unicode symbols.
 
-Gives you the following functions:
+Available options:
 
-* `touch(filename, options, cb)`
-* `touch.sync(filename, options)`
-* `touch.ftouch(fd, options, cb)`
-* `touch.ftouchSync(fd, options)`
-
-All the `options` objects are optional.
-
-All the async functions return a Promise.  If a callback function is
-provided, then it's attached to the Promise.
+* [`checkBidi`](#checkbidi)
+* [`checkHyphens`](#checkhyphens)
+* [`checkJoiners`](#checkjoiners)
+* [`ignoreInvalidPunycode`](#ignoreinvalidpunycode)
+* [`transitionalProcessing`](#transitionalprocessing)
+* [`useSTD3ASCIIRules`](#usestd3asciirules)
 
 ## Options
 
-* `force` like `touch -f` Boolean
-* `time` like `touch -t <date>` Can be a Date object, or any parseable
-  Date string, or epoch ms number.
-* `atime` like `touch -a` Can be either a Boolean, or a Date.
-* `mtime` like `touch -m` Can be either a Boolean, or a Date.
-* `ref` like `touch -r <file>` Must be path to a file.
-* `nocreate` like `touch -c` Boolean
+### `checkBidi`
 
-If neither `atime` nor `mtime` are set, then both values are set.  If
-one of them is set, then the other is not.
+Type: `boolean`
+Default value: `false`
+When set to `true`, any bi-directional text within the input will be checked for validation.
 
-## cli
+### `checkHyphens`
 
-This package creates a `nodetouch` command line executable that works
-very much like the unix builtin `touch(1)`
+Type: `boolean`
+Default value: `false`
+When set to `true`, the positions of any hyphen characters within the input will be checked for validation.
+
+### `checkJoiners`
+
+Type: `boolean`
+Default value: `false`
+When set to `true`, any word joiner characters within the input will be checked for validation.
+
+### `ignoreInvalidPunycode`
+
+Type: `boolean`
+Default value: `false`
+When set to `true`, invalid Punycode strings within the input will be allowed.
+
+### `transitionalProcessing`
+
+Type: `boolean`
+Default value: `false`
+When set to `true`, uses [transitional (compatibility) processing](https://unicode.org/reports/tr46/#Compatibility_Processing) of the deviation characters.
+
+### `useSTD3ASCIIRules`
+
+Type: `boolean`
+Default value: `false`
+When set to `true`, input will be validated according to [STD3 Rules](http://unicode.org/reports/tr46/#STD3_Rules).
+
+### `verifyDNSLength`
+
+Type: `boolean`
+Default value: `false`
+When set to `true`, the length of each DNS label within the input will be checked for validation.
